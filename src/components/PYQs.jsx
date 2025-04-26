@@ -1,3 +1,4 @@
+Import '../Firecracker.css';
 import React, { useState } from 'react';
 import './Firecracker.css';
 
