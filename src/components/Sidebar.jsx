@@ -6,19 +6,20 @@ const Sidebar = () => {
     { name: "Dashboard", path: "/" },
     { name: "Flashcards", path: "/flashcards" },
     { name: "MCQs", path: "/mcqs" },
+    { name: "PYQs", path: "/pyqs" },
     { name: "AI Doubts", path: "/ai-doubts" },
-    { name: "Profile", path: "/profile" },
   ];
 
   return (
-    <aside className="w-64 bg-white shadow-md h-full">
+    <aside className="w-64 bg-white shadow-md h-screen fixed top-0 left-0">
+      <div className="p-4 font-bold text-xl border-b">MedPrep</div>
       <nav className="p-4">
         <ul className="space-y-2">
           {menu.map((item, index) => (
             <li key={index}>
               <Link
                 to={item.path}
-                className="text-gray-700 hover:text-blue-500 block"
+                className="block text-gray-700 hover:text-blue-500 transition"
               >
                 {item.name}
               </Link>

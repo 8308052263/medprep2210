@@ -1,36 +1,36 @@
-import React, { useState } from 'react'
-
-const sampleFlashcards = [
-  { question: 'What is the most common site of metastasis in prostate cancer?', answer: 'Bone' },
-  { question: 'Which vitamin deficiency causes night blindness?', answer: 'Vitamin A' },
-]
+import React, { useState } from 'react';
 
 const Flashcards = () => {
-  const [index, setIndex] = useState(0)
-  const [flipped, setFlipped] = useState(false)
-
-  const nextCard = () => {
-    setIndex((prev) => (prev + 1) % sampleFlashcards.length)
-    setFlipped(false)
-  }
+  const flashcards = [
+    { question: 'What is the first line treatment for anaphylaxis?', answer: 'Epinephrine' },
+    { question: 'What is the antidote for acetaminophen overdose?', answer: 'N-acetylcysteine' }
+  ];
 
   return (
-    <div className="bg-white p-6 rounded shadow-md max-w-xl mx-auto">
-      <h2 className="text-2xl font-semibold mb-4">Flashcards</h2>
-      <div
-        className="border p-6 text-center cursor-pointer"
-        onClick={() => setFlipped(!flipped)}
-      >
-        {flipped ? sampleFlashcards[index].answer : sampleFlashcards[index].question}
+    <div className="p-6 ml-64">
+      <h2 className="text-2xl font-bold mb-6">Flashcards</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {flashcards.map((card, index) => (
+          <Flashcard key={index} question={card.question} answer={card.answer} />
+        ))}
       </div>
-      <button
-        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
-        onClick={nextCard}
-      >
-        Next
-      </button>
     </div>
-  )
-}
+  );
+};
 
-export default Flashcards
+const Flashcard = ({ question, answer }) => {
+  const [showAnswer, setShowAnswer] = useState(false);
+
+  return (
+    <div
+      className="p-6 border rounded-lg shadow-md cursor-pointer bg-gray-50 hover:bg-gray-100 transition"
+      onClick={() => setShowAnswer(!showAnswer)}
+    >
+      <p className="font-semibold">{question}</p>
+      {showAnswer && <p className="mt-2 text-green-700">{answer}</p>}
+      {!showAnswer && <p className="mt-2 text-gray-500 italic">Click to reveal answer</p>}
+    </div>
+  );
+};
+
+export default Flashcards;
