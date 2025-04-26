@@ -5,6 +5,7 @@ import Sidebar from './components/Sidebar';
 import Dashboard from './components/Dashboard';
 import Flashcards from './components/Flashcards';
 import MCQs from './components/MCQs';
+import PYQs from './components/PYQs'; // New import
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/flashcards" element={<Flashcards />} />
           <Route path="/mcqs" element={<MCQs />} />
+          <Route path="/pyqs" element={<PYQs />} /> {/* New route */}
         </Routes>
       </div>
     </div>
