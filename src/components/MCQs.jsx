@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import confetti from 'canvas-confetti';
+import React, { useState } from 'react';
+import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import motivationalMessages from '../motivationalMessages';
+import confetti from 'canvas-confetti';
 
 const mcqs = [
   {
@@ -19,41 +20,12 @@ const MCQs = () => {
   const [selected, setSelected] = useState(null);
   const [index, setIndex] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
-  const [timer, setTimer] = useState(15); // 15 seconds timer
-  const [message, setMessage] = useState('');
-
-  useEffect(() => {
-    if (timer === 0) {
-      setShowAnswer(true);
-      setMessage("⏰ Time's up! Focus harder next time!");
-    }
-    const countdown = setInterval(() => {
-      if (timer > 0 && !showAnswer) {
-        setTimer(timer - 1);
-      }
-    }, 1000);
-    return () => clearInterval(countdown);
-  }, [timer, showAnswer]);
-
-  const triggerConfetti = () => {
-    confetti({
-      particleCount: 100,
-      spread: 70,
-      origin: { y: 0.6 },
-      shapes: ['star'],
-      colors: ['#FFD700', '#FF69B4', '#00FFFF'],
-    });
-  };
 
   const checkAnswer = (option) => {
     setSelected(option);
     setShowAnswer(true);
     if (option === mcqs[index].answer) {
-      triggerConfetti();
-      setMessage("🎯 Correct!");
-    } else {
-      const randomMsg = motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
-      setMessage(randomMsg);
+      confetti({ particleCount: 100, spread: 70, shapes: ['star'] });
     }
   };
 
@@ -61,49 +33,62 @@ const MCQs = () => {
     setIndex((prev) => (prev + 1) % mcqs.length);
     setSelected(null);
     setShowAnswer(false);
-    setTimer(15);
-    setMessage('');
   };
 
   return (
-    <div className="bg-white p-6 rounded shadow-md max-w-xl mx-auto mt-6">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-semibold">MCQs</h2>
-        <div className={`text-xl font-bold ${timer <= 5 ? 'text-red-600' : 'text-green-600'}`}>
-          {timer}s
-        </div>
+    <div className="p-6 ml-64">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-2xl font-bold">MCQs</h2>
+        <CountdownCircleTimer
+          isPlaying
+          duration={20}
+          colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000', 0.33]]}
+          size={60}
+          strokeWidth={6}
+          onComplete={() => {
+            nextQuestion();
+            return { shouldRepeat: true, delay: 1 };
+          }}
+        >
+          {({ remainingTime }) => <div className="text-sm font-semibold">{remainingTime}s</div>}
+        </CountdownCircleTimer>
       </div>
-      <p className="mb-4 font-medium">{mcqs[index].question}</p>
-      <ul>
-        {mcqs[index].options.map((opt, i) => (
-          <li
-            key={i}
-            className={`p-2 border my-1 cursor-pointer rounded ${
+
+      <p className="mb-4 font-semibold">{mcqs[index].question}</p>
+      <div className="grid grid-cols-2 gap-4">
+        {mcqs[index].options.map((opt, idx) => (
+          <button
+            key={idx}
+            onClick={() => checkAnswer(opt)}
+            className={`p-3 border rounded-md ${
               showAnswer
                 ? opt === mcqs[index].answer
-                  ? 'bg-green-300'
-                  : selected === opt
-                  ? 'bg-red-300'
-                  : 'bg-white'
+                  ? 'bg-green-200'
+                  : opt === selected
+                  ? 'bg-red-200'
+                  : ''
                 : ''
-            }`}
-            onClick={() => !showAnswer && checkAnswer(opt)}
+            } hover:bg-blue-50`}
           >
             {opt}
-          </li>
+          </button>
         ))}
-      </ul>
-      {message && (
-        <div className="mt-3 text-center font-semibold text-blue-600">{message}</div>
-      )}
+      </div>
+
       {showAnswer && (
-        <button
-          onClick={nextQuestion}
-          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-        >
-          Next
-        </button>
+        <p className="mt-4 text-lg font-medium">
+          {selected === mcqs[index].answer
+            ? '✅ Correct!'
+            : `❌ Wrong! Correct Answer: ${mcqs[index].answer}`}
+        </p>
       )}
+
+      <button
+        onClick={nextQuestion}
+        className="mt-6 px-5 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+      >
+        Next
+      </button>
     </div>
   );
 };
