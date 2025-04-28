@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
-import motivationalMessages from '../motivationalMessages';
+import motivationalMessages from '../motivationalMessages'; // Assuming your 100 messages are here!
 
 const mcqs = [
   {
@@ -15,69 +15,64 @@ const mcqs = [
   },
 ];
 
-const launchStars = () => {
+const fireStars = () => {
   confetti({
     particleCount: 100,
     spread: 70,
-    origin: { y: 0.6 },
     shapes: ['star'],
-    colors: ['#FFD700', '#FF69B4', '#00BFFF'],
+    colors: ['#ffd700', '#ff6347', '#00bfff'],
   });
 };
 
 const MCQs = () => {
-  const [selected, setSelected] = useState(null);
   const [index, setIndex] = useState(0);
+  const [selected, setSelected] = useState('');
   const [showAnswer, setShowAnswer] = useState(false);
-  const [showMessage, setShowMessage] = useState('');
+  const [message, setMessage] = useState('');
 
-  const checkAnswer = (option) => {
+  const handleOptionClick = (option) => {
     setSelected(option);
     setShowAnswer(true);
     if (option === mcqs[index].answer) {
-      launchStars();
-      setShowMessage('Correct!');
+      fireStars();
+      setMessage('Correct!');
     } else {
       const randomMessage = motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
-      setShowMessage(randomMessage);
+      setMessage(randomMessage);
     }
   };
 
-  const nextQuestion = () => {
+  const handleNext = () => {
     setIndex((prev) => (prev + 1) % mcqs.length);
-    setSelected(null);
+    setSelected('');
     setShowAnswer(false);
-    setShowMessage('');
+    setMessage('');
   };
 
   return (
-    <div className="bg-white p-6 rounded shadow-md max-w-xl mx-auto">
-      <h2 className="text-2xl font-semibold mb-4">MCQs</h2>
-      <p className="mb-4 font-medium">{mcqs[index].question}</p>
-      <ul>
-        {mcqs[index].options.map((opt, i) => (
-          <li
-            key={i}
-            onClick={() => checkAnswer(opt)}
-            className={`p-2 border my-1 cursor-pointer rounded ${
-              selected === opt ? (opt === mcqs[index].answer ? 'bg-green-200' : 'bg-red-200') : ''
-            }`}
+    <div className="p-6 ml-64">
+      <h2 className="text-2xl font-bold mb-4">MCQ Practice</h2>
+      <p className="mb-4 font-semibold">{mcqs[index].question}</p>
+      <div className="grid grid-cols-2 gap-4 mb-4">
+        {mcqs[index].options.map((option, idx) => (
+          <button
+            key={idx}
+            onClick={() => handleOptionClick(option)}
+            className={`p-3 border rounded-md 
+              ${showAnswer && option === mcqs[index].answer ? 'bg-green-200' : ''}
+              ${showAnswer && option === selected && option !== mcqs[index].answer ? 'bg-red-200' : ''}
+              hover:bg-blue-50`}
+            disabled={showAnswer}
           >
-            {opt}
-          </li>
+            {option}
+          </button>
         ))}
-      </ul>
-
-      {showMessage && (
-        <p className={`mt-4 ${showMessage === 'Correct!' ? 'text-green-600 animate-pulse font-bold' : 'text-red-600'}`}>
-          {showMessage}
-        </p>
-      )}
-
-      {selected && (
+      </div>
+      {showAnswer && <p className="mt-4 text-lg font-semibold">{message}</p>}
+      {showAnswer && (
         <button
-          onClick={nextQuestion}
-          className="mt-6 px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-transform transform hover:scale-105 animate-bounce"
+          className="mt-6 px-4 py-2 bg-blue-500 text-white rounded"
+          onClick={handleNext}
         >
           Next
         </button>
