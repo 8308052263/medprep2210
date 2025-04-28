@@ -1,15 +1,23 @@
-.confetti {
+/* src/Firecracker.css */
+.firecracker {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
+  top: 50%;
+  left: 50%;
+  width: 15px;
+  height: 15px;
+  background: radial-gradient(circle, #ff0, #f00, #00f);
+  border-radius: 50%;
+  animation: boom 1s ease-out forwards;
   z-index: 9999;
-  animation: pop 1s ease-in-out forwards;
 }
 
-@keyframes pop {
-  0% { opacity: 1; transform: scale(0.9); }
-  100% { opacity: 0; transform: scale(1.3); }
+@keyframes boom {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(10);
+    opacity: 0;
+  }
 }

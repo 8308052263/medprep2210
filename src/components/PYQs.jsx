@@ -1,4 +1,4 @@
-import '../Firecracker.css';  // corrected path
+import '../Firecracker.css';
 import React, { useState } from 'react';
 
 const motivationalMessages = [
@@ -19,6 +19,7 @@ const correctEffect = () => {
 const PYQs = () => {
   const [showMessage, setShowMessage] = useState('');
   const [selected, setSelected] = useState(null);
+  const [showAnswer, setShowAnswer] = useState(false);
 
   const question = {
     text: "Which nerve is affected in wrist drop?",
@@ -28,6 +29,7 @@ const PYQs = () => {
 
   const handleSelect = (option) => {
     setSelected(option);
+    setShowAnswer(true);
     if (option === question.answer) {
       correctEffect();
       setShowMessage("Correct!");
@@ -38,21 +40,36 @@ const PYQs = () => {
   };
 
   return (
-    <div className="p-6 ml-64">
+    <div className="p-6 ml-64 mt-6">
       <h2 className="text-2xl font-bold mb-4">PYQ Practice</h2>
       <p className="mb-4 font-semibold">{question.text}</p>
       <div className="grid grid-cols-2 gap-4 mb-4">
         {question.options.map((opt, idx) => (
           <button
             key={idx}
-            onClick={() => handleSelect(opt)}
-            className={`p-3 border rounded-md ${selected === opt ? 'bg-blue-100' : 'bg-white'} hover:bg-blue-50`}
+            onClick={() => !showAnswer && handleSelect(opt)}
+            className={`p-3 border rounded-md ${
+              showAnswer
+                ? opt === question.answer
+                  ? 'bg-green-300'
+                  : selected === opt
+                  ? 'bg-red-300'
+                  : ''
+                : ''
+            } hover:bg-blue-50`}
           >
             {opt}
           </button>
         ))}
       </div>
-      {showMessage && <p className={`mt-4 text-${showMessage === 'Correct!' ? 'green' : 'red'}-600`}>{showMessage}</p>}
+      {showMessage && (
+        <p className={`mt-4 text-lg ${showMessage === "Correct!" ? 'text-green-600' : 'text-red-600'}`}>
+          {showMessage}
+        </p>
+      )}
+      {showAnswer && selected !== question.answer && (
+        <p className="mt-2 text-gray-700">Correct Answer: {question.answer}</p>
+      )}
     </div>
   );
 };
