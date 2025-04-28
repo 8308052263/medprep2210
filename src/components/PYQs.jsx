@@ -1,6 +1,5 @@
-import '../Firecracker.css';
+import '../Firecracker.css';  // corrected path
 import React, { useState } from 'react';
-import './Firecracker.css';
 
 const motivationalMessages = [
   "Don’t worry, even legends stumble!",
