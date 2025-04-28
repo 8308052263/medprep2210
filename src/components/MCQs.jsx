@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import confetti from 'canvas-confetti'; // NEW
+import confetti from 'canvas-confetti';
+import motivationalMessages from '../motivationalMessages';
 
 const mcqs = [
   {
@@ -14,15 +15,13 @@ const mcqs = [
   },
 ];
 
-const celebrateWithStars = () => {
+const launchStars = () => {
   confetti({
     particleCount: 100,
-    spread: 120,
-    startVelocity: 40,
-    scalar: 1.2,
-    shapes: ['star'],
-    colors: ['#FFCC00', '#FF6666', '#66CCFF', '#99FF99'],
+    spread: 70,
     origin: { y: 0.6 },
+    shapes: ['star'],
+    colors: ['#FFD700', '#FF69B4', '#00BFFF'],
   });
 };
 
@@ -30,12 +29,17 @@ const MCQs = () => {
   const [selected, setSelected] = useState(null);
   const [index, setIndex] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
+  const [showMessage, setShowMessage] = useState('');
 
   const checkAnswer = (option) => {
     setSelected(option);
     setShowAnswer(true);
     if (option === mcqs[index].answer) {
-      celebrateWithStars();
+      launchStars();
+      setShowMessage('Correct!');
+    } else {
+      const randomMessage = motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
+      setShowMessage(randomMessage);
     }
   };
 
@@ -43,6 +47,7 @@ const MCQs = () => {
     setIndex((prev) => (prev + 1) % mcqs.length);
     setSelected(null);
     setShowAnswer(false);
+    setShowMessage('');
   };
 
   return (
@@ -53,28 +58,30 @@ const MCQs = () => {
         {mcqs[index].options.map((opt, i) => (
           <li
             key={i}
-            className={`p-2 border my-1 cursor-pointer rounded ${
-              selected === opt && opt !== mcqs[index].answer ? 'bg-red-200' : ''
-            } ${
-              selected === opt && opt === mcqs[index].answer ? 'bg-green-200' : ''
-            }`}
             onClick={() => checkAnswer(opt)}
+            className={`p-2 border my-1 cursor-pointer rounded ${
+              selected === opt ? (opt === mcqs[index].answer ? 'bg-green-200' : 'bg-red-200') : ''
+            }`}
           >
             {opt}
           </li>
         ))}
       </ul>
-      {showAnswer && (
-        <p className="mt-2 text-sm text-gray-600">
-          Correct Answer: {mcqs[index].answer}
+
+      {showMessage && (
+        <p className={`mt-4 ${showMessage === 'Correct!' ? 'text-green-600 animate-pulse font-bold' : 'text-red-600'}`}>
+          {showMessage}
         </p>
       )}
-      <button
-        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
-        onClick={nextQuestion}
-      >
-        Next
-      </button>
+
+      {selected && (
+        <button
+          onClick={nextQuestion}
+          className="mt-6 px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-transform transform hover:scale-105 animate-bounce"
+        >
+          Next
+        </button>
+      )}
     </div>
   );
 };
