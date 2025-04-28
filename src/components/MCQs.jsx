@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import confetti from 'canvas-confetti';
-import '../Firecracker.css';
+import confetti from 'canvas-confetti'; // NEW
 
 const mcqs = [
   {
@@ -15,34 +14,16 @@ const mcqs = [
   },
 ];
 
-const correctEffect = () => {
-  var defaults = {
-    spread: 360,
-    ticks: 50,
-    gravity: 0,
-    decay: 0.94,
-    startVelocity: 30,
-    colors: ['#FFE400', '#FFBD00', '#E89400', '#FFAC6C', '#FDFFB8'],
-  };
-
-  function shoot() {
-    confetti({
-      ...defaults,
-      particleCount: 40,
-      scalar: 1.2,
-      shapes: ['star'],
-    });
-    confetti({
-      ...defaults,
-      particleCount: 10,
-      scalar: 0.75,
-      shapes: ['circle'],
-    });
-  }
-
-  shoot();
-  setTimeout(shoot, 100);
-  setTimeout(shoot, 200);
+const celebrateWithStars = () => {
+  confetti({
+    particleCount: 100,
+    spread: 120,
+    startVelocity: 40,
+    scalar: 1.2,
+    shapes: ['star'],
+    colors: ['#FFCC00', '#FF6666', '#66CCFF', '#99FF99'],
+    origin: { y: 0.6 },
+  });
 };
 
 const MCQs = () => {
@@ -54,7 +35,7 @@ const MCQs = () => {
     setSelected(option);
     setShowAnswer(true);
     if (option === mcqs[index].answer) {
-      correctEffect();
+      celebrateWithStars();
     }
   };
 
@@ -65,7 +46,7 @@ const MCQs = () => {
   };
 
   return (
-    <div className="bg-white p-6 rounded shadow-md max-w-xl mx-auto ml-64">
+    <div className="bg-white p-6 rounded shadow-md max-w-xl mx-auto">
       <h2 className="text-2xl font-semibold mb-4">MCQs</h2>
       <p className="mb-4 font-medium">{mcqs[index].question}</p>
       <ul>
@@ -73,13 +54,9 @@ const MCQs = () => {
           <li
             key={i}
             className={`p-2 border my-1 cursor-pointer rounded ${
-              showAnswer
-                ? opt === mcqs[index].answer
-                  ? 'bg-green-200'
-                  : selected === opt
-                  ? 'bg-red-200'
-                  : ''
-                : ''
+              selected === opt && opt !== mcqs[index].answer ? 'bg-red-200' : ''
+            } ${
+              selected === opt && opt === mcqs[index].answer ? 'bg-green-200' : ''
             }`}
             onClick={() => checkAnswer(opt)}
           >
