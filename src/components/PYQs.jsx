@@ -1,65 +1,59 @@
+// src/components/PYQs.jsx
+
 import React, { useState } from 'react';
-import { CountdownCircleTimer } from 'react-countdown-circle-timer';
-import motivationalMessages from '../motivationalMessages';
 import confetti from 'canvas-confetti';
+import motivationalMessages from '../motivationalMessages';
+import PYQData from './DetailedExplanations/PYQData'; // new import
 
 const PYQs = () => {
+  const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState(null);
   const [showAnswer, setShowAnswer] = useState(false);
-
-  const question = {
-    text: "Which nerve is affected in wrist drop?",
-    options: ["Ulnar nerve", "Median nerve", "Radial nerve", "Musculocutaneous nerve"],
-    answer: "Radial nerve"
-  };
+  const [message, setMessage] = useState('');
 
   const handleSelect = (option) => {
     setSelected(option);
     setShowAnswer(true);
-    if (option === question.answer) {
-      confetti({ particleCount: 100, spread: 70, shapes: ['star'] });
+    if (option === PYQData[index].answer) {
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        shapes: ['star'],
+        colors: ['#ffd700', '#ff6347', '#00bfff'],
+      });
+      setMessage("Correct!");
+    } else {
+      const randomMsg = motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
+      setMessage(randomMsg);
     }
   };
 
-  const resetQuestion = () => {
+  const nextQuestion = () => {
+    setIndex((prev) => (prev + 1) % PYQData.length);
     setSelected(null);
     setShowAnswer(false);
+    setMessage('');
   };
+
+  const current = PYQData[index];
 
   return (
     <div className="p-6 ml-64">
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-2xl font-bold">PYQ Practice</h2>
-        <CountdownCircleTimer
-          isPlaying
-          duration={20}
-          colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000', 0.33]]}
-          size={60}
-          strokeWidth={6}
-          onComplete={() => {
-            resetQuestion();
-            return { shouldRepeat: true, delay: 1 };
-          }}
-        >
-          {({ remainingTime }) => <div className="text-sm font-semibold">{remainingTime}s</div>}
-        </CountdownCircleTimer>
-      </div>
-
-      <p className="mb-4 font-semibold">{question.text}</p>
-      <div className="grid grid-cols-2 gap-4">
-        {question.options.map((opt, idx) => (
+      <h2 className="text-2xl font-bold mb-4">PYQ Practice</h2>
+      <p className="mb-4 font-semibold">{current.question}</p>
+      <div className="grid grid-cols-2 gap-4 mb-4">
+        {current.options.map((opt, idx) => (
           <button
             key={idx}
             onClick={() => handleSelect(opt)}
+            disabled={showAnswer}
             className={`p-3 border rounded-md ${
-              showAnswer
-                ? opt === question.answer
-                  ? 'bg-green-200'
-                  : opt === selected
-                  ? 'bg-red-200'
-                  : ''
-                : ''
-            } hover:bg-blue-50`}
+              showAnswer && opt === current.answer
+                ? 'bg-green-200'
+                : showAnswer && opt === selected && opt !== current.answer
+                ? 'bg-red-200'
+                : 'bg-white hover:bg-blue-50'
+            }`}
           >
             {opt}
           </button>
@@ -67,11 +61,26 @@ const PYQs = () => {
       </div>
 
       {showAnswer && (
-        <p className="mt-4 text-lg font-medium">
-          {selected === question.answer
-            ? '✅ Correct!'
-            : `❌ Wrong! Correct Answer: ${question.answer}`}
-        </p>
+        <div className="mt-4">
+          <p className="text-lg font-semibold">
+            {selected === current.answer
+              ? "✅ Correct!"
+              : `❌ Wrong! Correct Answer: ${current.answer}`}
+          </p>
+          <div className="mt-2 text-sm">
+            <strong>Explanation:</strong>
+            <pre className="bg-gray-100 p-2 rounded whitespace-pre-wrap">{current.explanation}</pre>
+          </div>
+        </div>
+      )}
+
+      {showAnswer && (
+        <button
+          onClick={nextQuestion}
+          className="mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-transform transform hover:scale-105 animate-bounce"
+        >
+          Next
+        </button>
       )}
     </div>
   );
