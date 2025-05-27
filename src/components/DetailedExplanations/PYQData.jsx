@@ -1,96 +1,143 @@
-// src/components/DetailedExplanations/PYQData.jsx
-
-const PYQs = [
+const PYQData = [
   {
-    question: "Which nerve is most commonly injured in humeral shaft fractures leading to wrist drop?",
-    options: ["Ulnar nerve", "Median nerve", "Radial nerve", "Axillary nerve"],
-    answer: "Radial nerve",
-    explanation: `
-Full Explanation:
-• Wrist drop is a common clinical sign resulting from injury to the radial nerve, often seen in fractures of the humeral shaft.
-• The radial nerve supplies the wrist and finger extensors, so its damage leads to an inability to extend the wrist.
-• Common causes include fracture displacement (especially in the spiral groove) and compression injuries.
-Mnemonic: "Radial nerve - Raises the wrist; drop when damaged."
-Key Table:
-| Nerve         | Function                           | Deficit if Injured     |
-|---------------|------------------------------------|------------------------|
-| Radial nerve  | Extension of wrist, fingers, thumb  | Wrist drop             |
-MCQ Tip:
-- When clinical findings show inability to extend the wrist along with sensory loss on the dorsal hand, consider radial nerve injury.
-`
+    id: 1,
+    question: "Which vitamin deficiency causes night blindness?",
+    options: ["Vitamin A", "Vitamin D", "Vitamin E", "Vitamin K"],
+    answer: "Vitamin A",
+    explanation: "Vitamin A is required for the formation of rhodopsin in retinal rods. Its deficiency leads to impaired vision in dim light — night blindness (nyctalopia)."
   },
   {
-    question: "Which electrolyte abnormality is most characteristic of Addison's disease?",
-    options: ["Hyperkalemia", "Hypokalemia", "Hypernatremia", "Hyponatremia"],
+    id: 2,
+    question: "Which of the following is the first-line treatment for anaphylaxis?",
+    options: ["IV Hydrocortisone", "IM Adrenaline", "IV Dopamine", "IM Chlorpheniramine"],
+    answer: "IM Adrenaline",
+    explanation: "Intramuscular adrenaline is the first-line drug in anaphylaxis. It quickly reverses bronchospasm, hypotension, and angioedema."
+  },
+  {
+    id: 3,
+    question: "Which bacteria is associated with colon cancer?",
+    options: ["Clostridium difficile", "Escherichia coli", "Helicobacter pylori", "Streptococcus bovis"],
+    answer: "Streptococcus bovis",
+    explanation: "Streptococcus bovis bacteremia or endocarditis is associated with colonic malignancy — always screen with colonoscopy."
+  },
+  {
+    id: 4,
+    question: "The most common site for ectopic pregnancy is:",
+    options: ["Isthmus", "Fimbrial end", "Ampulla", "Interstitial"],
+    answer: "Ampulla",
+    explanation: "Ampulla of the fallopian tube is the site of fertilization and the most common site of ectopic pregnancy (~70%)."
+  },
+  {
+    id: 5,
+    question: "Which stain is used for Mycobacterium tuberculosis?",
+    options: ["Gram stain", "PAS stain", "Ziehl-Neelsen stain", "Giemsa stain"],
+    answer: "Ziehl-Neelsen stain",
+    explanation: "Mycobacteria are acid-fast due to mycolic acid. Ziehl-Neelsen staining highlights acid-fast bacilli using carbol fuchsin."
+  },
+  {
+    id: 6,
+    question: "What is the antidote for paracetamol poisoning?",
+    options: ["Atropine", "N-acetylcysteine", "Sodium bicarbonate", "Naloxone"],
+    answer: "N-acetylcysteine",
+    explanation: "NAC replenishes glutathione and detoxifies NAPQI, the toxic metabolite of paracetamol overdose."
+  },
+  {
+    id: 7,
+    question: "Which hormone is elevated in PCOS?",
+    options: ["FSH", "LH", "TSH", "Prolactin"],
+    answer: "LH",
+    explanation: "In PCOS, LH:FSH ratio is increased, typically >2:1, contributing to anovulation and hyperandrogenism."
+  },
+  {
+    id: 8,
+    question: "Which nerve innervates the diaphragm?",
+    options: ["Vagus", "Phrenic", "Intercostal", "Recurrent laryngeal"],
+    answer: "Phrenic",
+    explanation: "The phrenic nerve (C3, C4, C5) provides motor and sensory supply to the diaphragm."
+  },
+  {
+    id: 9,
+    question: "Which of the following causes microcytic hypochromic anemia?",
+    options: ["Iron deficiency", "Vitamin B12 deficiency", "Folate deficiency", "Aplastic anemia"],
+    answer: "Iron deficiency",
+    explanation: "Iron deficiency impairs hemoglobin synthesis, leading to smaller (microcytic) and paler (hypochromic) red blood cells."
+  },
+  {
+    id: 10,
+    question: "Investigation of choice for pulmonary embolism?",
+    options: ["V/Q scan", "Chest X-ray", "CT pulmonary angiography", "ECG"],
+    answer: "CT pulmonary angiography",
+    explanation: "CTPA is the gold standard for diagnosing PE, directly visualizing emboli in the pulmonary arteries."
+  },
+  {
+    id: 11,
+    question: "Which of the following drugs causes gingival hyperplasia?",
+    options: ["Phenytoin", "Valproate", "Carbamazepine", "Phenobarbital"],
+    answer: "Phenytoin",
+    explanation: "Phenytoin, a sodium channel blocker, causes gingival hyperplasia in ~20% of users by stimulating fibroblasts."
+  },
+  {
+    id: 12,
+    question: "Which vitamin is synthesized by gut flora?",
+    options: ["Vitamin B12", "Vitamin K", "Vitamin C", "Vitamin A"],
+    answer: "Vitamin K",
+    explanation: "Gut bacteria synthesize vitamin K, which is essential for activation of clotting factors II, VII, IX, X."
+  },
+  {
+    id: 13,
+    question: "In a case of hypovolemic shock, what happens to pulse pressure?",
+    options: ["Increases", "Decreases", "Remains normal", "Becomes wide"],
+    answer: "Decreases",
+    explanation: "Pulse pressure narrows in hypovolemia due to decreased stroke volume (low systolic pressure)."
+  },
+  {
+    id: 14,
+    question: "The half-life of a drug is 6 hours. How much remains after 18 hours?",
+    options: ["1/2", "1/4", "1/8", "1/16"],
+    answer: "1/8",
+    explanation: "After 3 half-lives (18 hours): (1/2)^3 = 1/8 remains."
+  },
+  {
+    id: 15,
+    question: "Which of the following is teratogenic?",
+    options: ["Insulin", "Valproate", "Metformin", "Labetalol"],
+    answer: "Valproate",
+    explanation: "Valproate interferes with folate metabolism, increasing risk of neural tube defects (e.g., spina bifida)."
+  },
+  {
+    id: 16,
+    question: "Which electrolyte abnormality is seen in Addison’s disease?",
+    options: ["Hypernatremia", "Hyponatremia", "Hypercalcemia", "Hyperglycemia"],
     answer: "Hyponatremia",
-    explanation: `
-Full Explanation:
-• Addison's disease (primary adrenal insufficiency) is marked by a deficiency of cortisol and aldosterone.
-• Aldosterone deficiency leads to loss of sodium and retention of potassium.
-• The resulting electrolyte disturbances include hyponatremia (low sodium) and hyperkalemia (high potassium), with hyponatremia being more characteristic.
-Mnemonic: "Addison's = A for Aldosterone deficiency, low sodium."
-Key Table:
-| Hormone        | Deficiency Effect                |
-|----------------|----------------------------------|
-| Aldosterone    | Hyponatremia, Hyperkalemia       |
-MCQ Tip:
-- In suspected adrenal insufficiency, the presence of hyponatremia is a key diagnostic clue.
-`
+    explanation: "Due to aldosterone deficiency, sodium is lost in urine and potassium is retained → hyponatremia and hyperkalemia."
   },
   {
-    question: "Which clinical sign is a hallmark of Kawasaki disease?",
-    options: ["Malar rash", "Strawberry tongue", "Bull's eye rash", "Shingles"],
-    answer: "Strawberry tongue",
-    explanation: `
-Full Explanation:
-• Kawasaki disease is an acute vasculitis of childhood.
-• A hallmark clinical feature is a "strawberry tongue", which is a red, bumpy tongue due to inflammation.
-• Other features include fever, rash, conjunctival injection, and cervical lymphadenopathy.
-Mnemonic: "Kawasaki: tongue turns strawberry!"
-Key Table:
-| Feature              | Description                                 |
-|----------------------|---------------------------------------------|
-| Strawberry tongue    | Red, bumpy appearance in Kawasaki disease    |
-MCQ Tip:
-- The presence of a strawberry tongue in a febrile child is strongly suggestive of Kawasaki disease.
-`
+    id: 17,
+    question: "What is the drug of choice for status epilepticus?",
+    options: ["Phenobarbital", "Phenytoin", "Lorazepam", "Levetiracetam"],
+    answer: "Lorazepam",
+    explanation: "IV lorazepam is first-line due to rapid onset and long CNS action. Phenytoin follows for long-term control."
   },
   {
-    question: "Which test is the most sensitive for diagnosing pulmonary embolism in a low-risk patient?",
-    options: ["CT pulmonary angiography", "Ventilation-perfusion scan", "D-dimer test", "Chest X-ray"],
-    answer: "D-dimer test",
-    explanation: `
-Full Explanation:
-• In low-risk patients, the D-dimer test is used as a screening tool for pulmonary embolism.
-• A negative D-dimer test effectively rules out pulmonary embolism due to its high sensitivity, though it has low specificity.
-• This test is quick, cost-effective, and non-invasive.
-Mnemonic: "D for D-dimer, detects dissolving clots."
-Key Table:
-| Test               | Sensitivity vs Specificity          |
-|--------------------|-------------------------------------|
-| D-dimer            | High sensitivity, low specificity    |
-MCQ Tip:
-- Use the D-dimer test to rule out PE in low-probability cases, preventing unnecessary imaging.
-`
+    id: 18,
+    question: "Which of the following is NOT seen in nephrotic syndrome?",
+    options: ["Proteinuria", "Hyperlipidemia", "Hematuria", "Hypoalbuminemia"],
+    answer: "Hematuria",
+    explanation: "Nephrotic syndrome = proteinuria >3.5 g/day, hypoalbuminemia, hyperlipidemia, edema. Hematuria suggests nephritic pattern."
   },
   {
-    question: "Which radiological sign is indicative of osteomyelitis in children?",
-    options: ["Codman's triangle", "Sunburst appearance", "Lytic lesion with sequestrum", "Bone sclerosis"],
-    answer: "Lytic lesion with sequestrum",
-    explanation: `
-Full Explanation:
-• Osteomyelitis in children often presents with a lytic lesion accompanied by a sequestrum, which is a piece of dead bone separated from living bone.
-• This finding is due to the infection causing bone destruction and necrosis.
-• Early identification and treatment are crucial to prevent long-term complications.
-Mnemonic: "Osteo = infection eats bone – look for lytic and sequestrum."
-Key Table:
-| Radiologic Finding | Description                         |
-|--------------------|-------------------------------------|
-| Sequestrum         | Dead bone seen on x-ray in osteomyelitis |
-MCQ Tip:
-- A lytic lesion combined with a sequestrum on imaging is strongly suggestive of osteomyelitis in pediatric patients.
-`
+    id: 19,
+    question: "Which hepatitis virus is DNA virus?",
+    options: ["HAV", "HBV", "HCV", "HEV"],
+    answer: "HBV",
+    explanation: "HBV is a partially double-stranded DNA virus. All others are RNA viruses."
+  },
+  {
+    id: 20,
+    question: "What is the most common cause of pneumonia in adults?",
+    options: ["Klebsiella", "Mycoplasma", "Streptococcus pneumoniae", "Legionella"],
+    answer: "Streptococcus pneumoniae",
+    explanation: "S. pneumoniae is the most frequent cause of community-acquired pneumonia, presenting with fever, cough, and rust-colored sputum."
   }
 ];
-
-export default PYQs;
+export default PYQData;
