@@ -1,33 +1,41 @@
-import React from 'react';
+// src/components/Sidebar.jsx
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const Sidebar = () => {
-  const menu = [
-    { name: "Dashboard", path: "/" },
-    { name: "Flashcards", path: "/flashcards" },
-    { name: "MCQs", path: "/mcqs" },
-    { name: "PYQs", path: "/pyqs" },
-    { name: "AI Doubts", path: "/ai-doubts" },
-  ];
+  const [open, setOpen] = useState(false);
+
+  const toggleSidebar = () => setOpen(!open);
+  const closeSidebar = () => setOpen(false);
 
   return (
-    <aside className="w-64 bg-white shadow-md h-screen fixed top-0 left-0">
-      <div className="p-4 font-bold text-xl border-b">MedPrep</div>
-      <nav className="p-4">
-        <ul className="space-y-2">
-          {menu.map((item, index) => (
-            <li key={index}>
-              <Link
-                to={item.path}
-                className="block text-gray-700 hover:text-blue-500 transition"
-              >
-                {item.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    </aside>
+    <>
+      {/* Hamburger Button for Mobile */}
+      <div className="md:hidden p-4">
+        <button
+          onClick={toggleSidebar}
+          className="text-xl font-bold border px-3 py-1 rounded"
+        >
+          ☰
+        </button>
+      </div>
+
+      {/* Sidebar */}
+      <div
+        className={`fixed z-50 top-0 left-0 h-full bg-white shadow-md w-64 p-4 transition-transform duration-300 transform
+          ${open ? 'translate-x-0' : '-translate-x-full'} 
+          md:translate-x-0 md:static md:block`}
+      >
+        <h2 className="text-2xl font-bold mb-4">MedPrep</h2>
+        <nav className="flex flex-col gap-4">
+          <Link to="/dashboard" onClick={closeSidebar}>Dashboard</Link>
+          <Link to="/flashcards" onClick={closeSidebar}>Flashcards</Link>
+          <Link to="/mcqs" onClick={closeSidebar}>MCQs</Link>
+          <Link to="/pyqs" onClick={closeSidebar}>PYQs</Link>
+          <Link to="/ai-doubts" onClick={closeSidebar}>AI Doubts</Link>
+        </nav>
+      </div>
+    </>
   );
 };
 
