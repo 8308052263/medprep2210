@@ -1,41 +1,67 @@
 // src/components/Sidebar.jsx
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import {
+  HomeIcon,
+  BookOpenIcon,
+  ClipboardListIcon,
+  FileTextIcon,
+  MessageSquareIcon,
+  MenuIcon,
+  XIcon
+} from 'lucide-react';
+
+const navItems = [
+  { path: '/dashboard', label: 'Dashboard', icon: <HomeIcon size={20} /> },
+  { path: '/flashcards', label: 'Flashcards', icon: <BookOpenIcon size={20} /> },
+  { path: '/mcqs', label: 'MCQs', icon: <ClipboardListIcon size={20} /> },
+  { path: '/pyqs', label: 'PYQs', icon: <FileTextIcon size={20} /> },
+  { path: '/ai-doubts', label: 'AI Doubts', icon: <MessageSquareIcon size={20} /> }
+];
 
 const Sidebar = () => {
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
+  const location = useLocation();
 
-  const toggleSidebar = () => setOpen(!open);
-  const closeSidebar = () => setOpen(false);
+  // Persist sidebar state in localStorage
+  useEffect(() => {
+    const stored = localStorage.getItem('sidebarOpen');
+    if (stored !== null) setIsOpen(JSON.parse(stored));
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('sidebarOpen', JSON.stringify(isOpen));
+  }, [isOpen]);
 
   return (
-    <>
-      {/* Hamburger Button for Mobile */}
-      <div className="md:hidden p-4">
-        <button
-          onClick={toggleSidebar}
-          className="text-xl font-bold border px-3 py-1 rounded"
-        >
-          ☰
-        </button>
-      </div>
-
-      {/* Sidebar */}
-      <div
-        className={`fixed z-50 top-0 left-0 h-full bg-white shadow-md w-64 p-4 transition-transform duration-300 transform
-          ${open ? 'translate-x-0' : '-translate-x-full'} 
-          md:translate-x-0 md:static md:block`}
+    <div className={`transition-all duration-300 bg-white shadow-md h-screen fixed md:static z-50 ${isOpen ? 'w-64' : 'w-16'} p-4`}>      
+      {/* Toggle button */}
+      <button
+        className="mb-6 text-gray-700 focus:outline-none"
+        onClick={() => setIsOpen(!isOpen)}
+        title={isOpen ? 'Collapse' : 'Expand'}
       >
-        <h2 className="text-2xl font-bold mb-4">MedPrep</h2>
-        <nav className="flex flex-col gap-4">
-          <Link to="/dashboard" onClick={closeSidebar}>Dashboard</Link>
-          <Link to="/flashcards" onClick={closeSidebar}>Flashcards</Link>
-          <Link to="/mcqs" onClick={closeSidebar}>MCQs</Link>
-          <Link to="/pyqs" onClick={closeSidebar}>PYQs</Link>
-          <Link to="/ai-doubts" onClick={closeSidebar}>AI Doubts</Link>
-        </nav>
-      </div>
-    </>
+        {isOpen ? <XIcon size={24} /> : <MenuIcon size={24} />}
+      </button>
+
+      <h2 className={`text-xl font-bold mb-8 transition-opacity ${isOpen ? 'opacity-100' : 'opacity-0 hidden'}`}>MedPrep</h2>
+
+      <nav className="flex flex-col gap-4">
+        {navItems.map(item => (
+          <Link
+            to={item.path}
+            key={item.path}
+            title={item.label}
+            className={`flex items-center gap-3 p-2 rounded hover:bg-gray-200 transition-colors ${
+              location.pathname === item.path ? 'bg-gray-200 font-semibold' : ''
+            }`}
+          >
+            {item.icon}
+            {isOpen && <span>{item.label}</span>}
+          </Link>
+        ))}
+      </nav>
+    </div>
   );
 };
 
