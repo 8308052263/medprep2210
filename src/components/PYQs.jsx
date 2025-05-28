@@ -1,87 +1,169 @@
-// src/components/PYQs.jsx
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import PYQData from './DetailedExplanations/PYQData';
 import confetti from 'canvas-confetti';
-import motivationalMessages from '../motivationalMessages';
-import PYQData from './DetailedExplanations/PYQData'; // new import
 
 const PYQs = () => {
-  const [index, setIndex] = useState(0);
-  const [selected, setSelected] = useState(null);
-  const [showAnswer, setShowAnswer] = useState(false);
-  const [message, setMessage] = useState('');
+  const [bookmarks, setBookmarks] = useState(() => JSON.parse(localStorage.getItem('pyqBookmarks')) || []);
+  const [selectedTopic, setSelectedTopic] = useState('All');
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [selectedOption, setSelectedOption] = useState('');
+  const [showExplanation, setShowExplanation] = useState(false);
+  const [score, setScore] = useState({ correct: 0, wrong: 0 });
 
-  const handleSelect = (option) => {
-    setSelected(option);
-    setShowAnswer(true);
-    if (option === PYQData[index].answer) {
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        shapes: ['star'],
-        colors: ['#ffd700', '#ff6347', '#00bfff'],
-      });
-      setMessage("Correct!");
+  const topics = ['All', ...new Set(PYQData.map((q) => q.topic))];
+  const filteredPYQs = selectedTopic === 'All' ? PYQData : PYQData.filter(q => q.topic === selectedTopic);
+  const currentQuestion = filteredPYQs[currentIndex];
+
+  useEffect(() => {
+    localStorage.setItem('pyqBookmarks', JSON.stringify(bookmarks));
+  }, [bookmarks]);
+
+  const handleOptionClick = (option) => {
+    if (selectedOption) return;
+    setSelectedOption(option);
+    setShowExplanation(true);
+
+    if (option === currentQuestion.answer) {
+      confetti({ particleCount: 80, spread: 70 });
+      setScore(prev => ({ ...prev, correct: prev.correct + 1 }));
     } else {
-      const randomMsg = motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
-      setMessage(randomMsg);
+      setScore(prev => ({ ...prev, wrong: prev.wrong + 1 }));
     }
   };
 
-  const nextQuestion = () => {
-    setIndex((prev) => (prev + 1) % PYQData.length);
-    setSelected(null);
-    setShowAnswer(false);
-    setMessage('');
+  const handleNext = () => {
+    if (currentIndex < filteredPYQs.length - 1) {
+      setCurrentIndex(prev => prev + 1);
+      setSelectedOption('');
+      setShowExplanation(false);
+    }
   };
 
-  const current = PYQData[index];
+  const handlePrev = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(prev => prev - 1);
+      setSelectedOption('');
+      setShowExplanation(false);
+    }
+  };
+
+  const toggleBookmark = () => {
+    const id = currentQuestion.id;
+    if (bookmarks.includes(id)) {
+      setBookmarks(bookmarks.filter(b => b !== id));
+    } else {
+      setBookmarks([...bookmarks, id]);
+    }
+  };
+
+  const progress = ((currentIndex + 1) / filteredPYQs.length) * 100;
 
   return (
-    <div className="p-6 ml-64">
-      <h2 className="text-2xl font-bold mb-4">PYQ Practice</h2>
-      <p className="mb-4 font-semibold">{current.question}</p>
-      <div className="grid grid-cols-2 gap-4 mb-4">
-        {current.options.map((opt, idx) => (
-          <button
-            key={idx}
-            onClick={() => handleSelect(opt)}
-            disabled={showAnswer}
-            className={`p-3 border rounded-md ${
-              showAnswer && opt === current.answer
-                ? 'bg-green-200'
-                : showAnswer && opt === selected && opt !== current.answer
-                ? 'bg-red-200'
-                : 'bg-white hover:bg-blue-50'
-            }`}
-          >
-            {opt}
-          </button>
-        ))}
+    <div className="p-6 ml-64 max-w-3xl mx-auto">
+      <h2 className="text-3xl font-bold text-purple-700 mb-6 text-center">PYQs</h2>
+
+      {/* Progress Bar */}
+      <div className="w-full bg-gray-200 h-2 rounded mb-4">
+        <div className="h-2 bg-purple-500 rounded" style={{ width: `${progress}%` }}></div>
       </div>
 
-      {showAnswer && (
-        <div className="mt-4">
-          <p className="text-lg font-semibold">
-            {selected === current.answer
-              ? "✅ Correct!"
-              : `❌ Wrong! Correct Answer: ${current.answer}`}
-          </p>
-          <div className="mt-2 text-sm">
-            <strong>Explanation:</strong>
-            <pre className="bg-gray-100 p-2 rounded whitespace-pre-wrap">{current.explanation}</pre>
-          </div>
-        </div>
-      )}
-
-      {showAnswer && (
-        <button
-          onClick={nextQuestion}
-          className="mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-transform transform hover:scale-105 animate-bounce"
+      {/* Topic Filter */}
+      <div className="mb-4 text-center">
+        <label className="mr-2 font-medium">Filter by Topic:</label>
+        <select
+          className="border border-gray-300 px-3 py-1 rounded"
+          value={selectedTopic}
+          onChange={(e) => {
+            setSelectedTopic(e.target.value);
+            setCurrentIndex(0);
+            setSelectedOption('');
+            setShowExplanation(false);
+          }}
         >
-          Next
-        </button>
-      )}
+          {topics.map((topic, index) => (
+            <option key={index} value={topic}>{topic}</option>
+          ))}
+        </select>
+      </div>
+
+      {/* Question */}
+      <div className="bg-white border rounded-xl shadow-md p-6">
+        <div className="mb-4">
+          <p className="font-semibold text-lg">Q{currentIndex + 1}. {currentQuestion.question}</p>
+        </div>
+        <div className="space-y-2">
+          {currentQuestion.options.map((option, idx) => {
+            const isCorrect = selectedOption && option === currentQuestion.answer;
+            const isWrong = selectedOption === option && option !== currentQuestion.answer;
+
+            return (
+              <div
+                key={idx}
+                onClick={() => handleOptionClick(option)}
+                className={`p-3 rounded cursor-pointer border transition
+                  ${selectedOption ? (
+                    isCorrect ? 'bg-green-100 border-green-400 text-green-800 font-semibold'
+                    : isWrong ? 'bg-red-100 border-red-400 text-red-700'
+                    : 'bg-gray-100 border-gray-300 text-gray-600'
+                  ) : 'hover:bg-blue-50 border-gray-300'}
+                `}
+              >
+                {option}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Explanation */}
+        {showExplanation && (
+          <div className="mt-4 bg-blue-50 border-l-4 border-blue-500 p-4 text-sm rounded">
+            <strong className="text-blue-700">Explanation:</strong> {currentQuestion.explanation}
+          </div>
+        )}
+
+        {/* Actions */}
+        <div className="mt-6 flex flex-wrap gap-4 justify-center">
+          <button
+            onClick={handlePrev}
+            disabled={currentIndex === 0}
+            className={`px-4 py-2 rounded ${
+              currentIndex === 0
+                ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
+                : 'bg-gray-600 text-white hover:bg-gray-700'
+            }`}
+          >
+            Previous
+          </button>
+
+          <button
+            onClick={handleNext}
+            disabled={currentIndex === filteredPYQs.length - 1}
+            className={`px-4 py-2 rounded ${
+              currentIndex === filteredPYQs.length - 1
+                ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
+                : 'bg-purple-600 text-white hover:bg-purple-700'
+            }`}
+          >
+            Next
+          </button>
+
+          <button
+            onClick={toggleBookmark}
+            className={`px-4 py-2 rounded ${
+              bookmarks.includes(currentQuestion.id)
+                ? 'bg-yellow-500 text-white hover:bg-yellow-600'
+                : 'bg-yellow-300 text-black hover:bg-yellow-400'
+            }`}
+          >
+            {bookmarks.includes(currentQuestion.id) ? 'Bookmarked' : 'Bookmark'}
+          </button>
+        </div>
+      </div>
+
+      {/* Score */}
+      <div className="mt-6 text-center text-gray-700 text-lg">
+        <p><strong>Correct:</strong> {score.correct} &nbsp; | &nbsp; <strong>Wrong:</strong> {score.wrong}</p>
+      </div>
     </div>
   );
 };

@@ -1,143 +1,133 @@
 const PYQData = [
   {
-    id: 1,
-    question: "Which vitamin deficiency causes night blindness?",
-    options: ["Vitamin A", "Vitamin D", "Vitamin E", "Vitamin K"],
-    answer: "Vitamin A",
-    explanation: "Vitamin A is required for the formation of rhodopsin in retinal rods. Its deficiency leads to impaired vision in dim light — night blindness (nyctalopia)."
+    id: 101,
+    topic: "OBG",
+    question: "What is the most common site for ectopic pregnancy?",
+    options: [
+      "Isthmus of fallopian tube",
+      "Ampulla of fallopian tube",
+      "Fimbrial end",
+      "Interstitial part of fallopian tube"
+    ],
+    answer: "Ampulla of fallopian tube",
+    explanation: `The ampulla is the widest section of the fallopian tube and the most common site of fertilization. Ectopic pregnancy most frequently occurs here (≈70%) due to delayed ovum transport or tubal pathology (e.g., PID, endometriosis). Rupture risk increases with gestational age and can cause hemorrhagic shock. The interstitial region is more vascular and ruptures later but with catastrophic bleeding.`
   },
   {
-    id: 2,
-    question: "Which of the following is the first-line treatment for anaphylaxis?",
-    options: ["IV Hydrocortisone", "IM Adrenaline", "IV Dopamine", "IM Chlorpheniramine"],
-    answer: "IM Adrenaline",
-    explanation: "Intramuscular adrenaline is the first-line drug in anaphylaxis. It quickly reverses bronchospasm, hypotension, and angioedema."
-  },
-  {
-    id: 3,
-    question: "Which bacteria is associated with colon cancer?",
-    options: ["Clostridium difficile", "Escherichia coli", "Helicobacter pylori", "Streptococcus bovis"],
-    answer: "Streptococcus bovis",
-    explanation: "Streptococcus bovis bacteremia or endocarditis is associated with colonic malignancy — always screen with colonoscopy."
-  },
-  {
-    id: 4,
-    question: "The most common site for ectopic pregnancy is:",
-    options: ["Isthmus", "Fimbrial end", "Ampulla", "Interstitial"],
-    answer: "Ampulla",
-    explanation: "Ampulla of the fallopian tube is the site of fertilization and the most common site of ectopic pregnancy (~70%)."
-  },
-  {
-    id: 5,
-    question: "Which stain is used for Mycobacterium tuberculosis?",
-    options: ["Gram stain", "PAS stain", "Ziehl-Neelsen stain", "Giemsa stain"],
+    id: 102,
+    topic: "Microbiology",
+    question: "Which stain is used to identify acid-fast bacilli like Mycobacterium tuberculosis?",
+    options: [
+      "Gram stain",
+      "Giemsa stain",
+      "Ziehl-Neelsen stain",
+      "PAS stain"
+    ],
     answer: "Ziehl-Neelsen stain",
-    explanation: "Mycobacteria are acid-fast due to mycolic acid. Ziehl-Neelsen staining highlights acid-fast bacilli using carbol fuchsin."
+    explanation: `The Ziehl-Neelsen (ZN) stain uses carbol fuchsin and acid-alcohol to identify organisms with mycolic acid in their cell walls, rendering them 'acid-fast.' Mycobacterium tuberculosis retains the red stain due to this waxy layer. The ZN method is a primary diagnostic tool in sputum smear microscopy for pulmonary TB. Gram and Giemsa stains are inadequate due to poor staining of mycobacteria.`
   },
   {
-    id: 6,
-    question: "What is the antidote for paracetamol poisoning?",
-    options: ["Atropine", "N-acetylcysteine", "Sodium bicarbonate", "Naloxone"],
-    answer: "N-acetylcysteine",
-    explanation: "NAC replenishes glutathione and detoxifies NAPQI, the toxic metabolite of paracetamol overdose."
-  },
-  {
-    id: 7,
-    question: "Which hormone is elevated in PCOS?",
-    options: ["FSH", "LH", "TSH", "Prolactin"],
-    answer: "LH",
-    explanation: "In PCOS, LH:FSH ratio is increased, typically >2:1, contributing to anovulation and hyperandrogenism."
-  },
-  {
-    id: 8,
-    question: "Which nerve innervates the diaphragm?",
-    options: ["Vagus", "Phrenic", "Intercostal", "Recurrent laryngeal"],
-    answer: "Phrenic",
-    explanation: "The phrenic nerve (C3, C4, C5) provides motor and sensory supply to the diaphragm."
-  },
-  {
-    id: 9,
-    question: "Which of the following causes microcytic hypochromic anemia?",
-    options: ["Iron deficiency", "Vitamin B12 deficiency", "Folate deficiency", "Aplastic anemia"],
-    answer: "Iron deficiency",
-    explanation: "Iron deficiency impairs hemoglobin synthesis, leading to smaller (microcytic) and paler (hypochromic) red blood cells."
-  },
-  {
-    id: 10,
-    question: "Investigation of choice for pulmonary embolism?",
-    options: ["V/Q scan", "Chest X-ray", "CT pulmonary angiography", "ECG"],
-    answer: "CT pulmonary angiography",
-    explanation: "CTPA is the gold standard for diagnosing PE, directly visualizing emboli in the pulmonary arteries."
-  },
-  {
-    id: 11,
-    question: "Which of the following drugs causes gingival hyperplasia?",
-    options: ["Phenytoin", "Valproate", "Carbamazepine", "Phenobarbital"],
-    answer: "Phenytoin",
-    explanation: "Phenytoin, a sodium channel blocker, causes gingival hyperplasia in ~20% of users by stimulating fibroblasts."
-  },
-  {
-    id: 12,
-    question: "Which vitamin is synthesized by gut flora?",
-    options: ["Vitamin B12", "Vitamin K", "Vitamin C", "Vitamin A"],
-    answer: "Vitamin K",
-    explanation: "Gut bacteria synthesize vitamin K, which is essential for activation of clotting factors II, VII, IX, X."
-  },
-  {
-    id: 13,
-    question: "In a case of hypovolemic shock, what happens to pulse pressure?",
-    options: ["Increases", "Decreases", "Remains normal", "Becomes wide"],
-    answer: "Decreases",
-    explanation: "Pulse pressure narrows in hypovolemia due to decreased stroke volume (low systolic pressure)."
-  },
-  {
-    id: 14,
-    question: "The half-life of a drug is 6 hours. How much remains after 18 hours?",
-    options: ["1/2", "1/4", "1/8", "1/16"],
-    answer: "1/8",
-    explanation: "After 3 half-lives (18 hours): (1/2)^3 = 1/8 remains."
-  },
-  {
-    id: 15,
-    question: "Which of the following is teratogenic?",
-    options: ["Insulin", "Valproate", "Metformin", "Labetalol"],
-    answer: "Valproate",
-    explanation: "Valproate interferes with folate metabolism, increasing risk of neural tube defects (e.g., spina bifida)."
-  },
-  {
-    id: 16,
-    question: "Which electrolyte abnormality is seen in Addison’s disease?",
-    options: ["Hypernatremia", "Hyponatremia", "Hypercalcemia", "Hyperglycemia"],
-    answer: "Hyponatremia",
-    explanation: "Due to aldosterone deficiency, sodium is lost in urine and potassium is retained → hyponatremia and hyperkalemia."
-  },
-  {
-    id: 17,
-    question: "What is the drug of choice for status epilepticus?",
-    options: ["Phenobarbital", "Phenytoin", "Lorazepam", "Levetiracetam"],
-    answer: "Lorazepam",
-    explanation: "IV lorazepam is first-line due to rapid onset and long CNS action. Phenytoin follows for long-term control."
-  },
-  {
-    id: 18,
-    question: "Which of the following is NOT seen in nephrotic syndrome?",
-    options: ["Proteinuria", "Hyperlipidemia", "Hematuria", "Hypoalbuminemia"],
+    id: 103,
+    topic: "Medicine",
+    question: "Which of the following is NOT a classical feature of nephrotic syndrome?",
+    options: [
+      "Proteinuria",
+      "Hypoalbuminemia",
+      "Hyperlipidemia",
+      "Hematuria"
+    ],
     answer: "Hematuria",
-    explanation: "Nephrotic syndrome = proteinuria >3.5 g/day, hypoalbuminemia, hyperlipidemia, edema. Hematuria suggests nephritic pattern."
+    explanation: `Nephrotic syndrome is a renal disorder characterized by heavy proteinuria (>3.5g/day), hypoalbuminemia, edema, and hyperlipidemia due to hepatic lipoprotein synthesis. Hematuria, while possible, is more suggestive of nephritic syndrome, which involves glomerular inflammation. Nephrotic syndrome leads to hypercoagulability, infections, and lipiduria.`
   },
   {
-    id: 19,
-    question: "Which hepatitis virus is DNA virus?",
-    options: ["HAV", "HBV", "HCV", "HEV"],
-    answer: "HBV",
-    explanation: "HBV is a partially double-stranded DNA virus. All others are RNA viruses."
+    id: 104,
+    topic: "Pharmacology",
+    question: "What is the first-line treatment for anaphylactic shock?",
+    options: [
+      "IV Hydrocortisone",
+      "IM Adrenaline",
+      "IV Dopamine",
+      "IM Chlorpheniramine"
+    ],
+    answer: "IM Adrenaline",
+    explanation: `Intramuscular adrenaline (0.3–0.5 mg in adults) is the cornerstone of anaphylaxis management. It acts rapidly to reverse airway obstruction, vasodilation, and mucosal edema by stimulating alpha and beta-adrenergic receptors. Antihistamines and steroids may be used adjunctively but are slower in action and not life-saving.`
   },
   {
-    id: 20,
-    question: "What is the most common cause of pneumonia in adults?",
-    options: ["Klebsiella", "Mycoplasma", "Streptococcus pneumoniae", "Legionella"],
-    answer: "Streptococcus pneumoniae",
-    explanation: "S. pneumoniae is the most frequent cause of community-acquired pneumonia, presenting with fever, cough, and rust-colored sputum."
+    id: 105,
+    topic: "Physiology",
+    question: "The half-life of a drug is 4 hours. How much of the drug remains after 12 hours?",
+    options: [
+      "1/2",
+      "1/4",
+      "1/8",
+      "1/16"
+    ],
+    answer: "1/8",
+    explanation: `The half-life (t½) is the time required for the plasma concentration of a drug to reduce by 50%. After 12 hours (3 half-lives): (1/2)^3 = 1/8 of the original dose remains. This concept is crucial in dosing frequency and steady-state achievement.`
+  },
+  {
+    id: 106,
+    topic: "Ophthalmology",
+    question: "Night blindness is most commonly due to deficiency of which vitamin?",
+    options: [
+      "Vitamin A",
+      "Vitamin D",
+      "Vitamin E",
+      "Vitamin K"
+    ],
+    answer: "Vitamin A",
+    explanation: `Vitamin A (retinol) is essential for the synthesis of rhodopsin in rod cells of the retina. Rhodopsin is critical for scotopic (low-light) vision. Its deficiency impairs this pathway, leading to nyctalopia (night blindness), and can progress to xerophthalmia and Bitot's spots.`
+  },
+  {
+    id: 107,
+    topic: "Pharmacology",
+    question: "Which antiepileptic drug has the highest teratogenic potential?",
+    options: [
+      "Carbamazepine",
+      "Valproic acid",
+      "Lamotrigine",
+      "Levetiracetam"
+    ],
+    answer: "Valproic acid",
+    explanation: `Valproic acid interferes with folic acid metabolism and neural tube development, significantly increasing the risk of spina bifida and other congenital defects. It is avoided during pregnancy. Lamotrigine and levetiracetam are considered safer alternatives.`
+  },
+  {
+    id: 108,
+    topic: "Pathology",
+    question: "Which of the following is a tumor marker for ovarian cancer?",
+    options: [
+      "CA 125",
+      "CEA",
+      "CA 19-9",
+      "PSA"
+    ],
+    answer: "CA 125",
+    explanation: `CA 125 is elevated in epithelial ovarian cancers, particularly serous cystadenocarcinomas. While not specific, it’s used for monitoring treatment response and detecting recurrence. CEA is linked to colorectal cancer, CA 19-9 to pancreatic cancer, and PSA to prostate cancer.`
+  },
+  {
+    id: 109,
+    topic: "Biochemistry",
+    question: "Which of the following enzymes is deficient in phenylketonuria (PKU)?",
+    options: [
+      "Phenylalanine hydroxylase",
+      "Tyrosinase",
+      "Homogentisate oxidase",
+      "Branched-chain ketoacid dehydrogenase"
+    ],
+    answer: "Phenylalanine hydroxylase",
+    explanation: `PKU is an autosomal recessive metabolic disorder due to a deficiency of phenylalanine hydroxylase, which converts phenylalanine to tyrosine. Its accumulation causes intellectual disability, musty odor, and light pigmentation. Early dietary restriction is essential to prevent neurologic damage.`
+  },
+  {
+    id: 110,
+    topic: "Community Medicine",
+    question: "What is the basic reproductive number (R₀) in epidemiology?",
+    options: [
+      "Average number of deaths per case",
+      "Average number of secondary cases per primary case",
+      "Proportion of population immune",
+      "Doubling time of an infection"
+    ],
+    answer: "Average number of secondary cases per primary case",
+    explanation: `R₀ represents the average number of new infections generated by one infected individual in a completely susceptible population. If R₀ > 1, the disease can spread. It is critical for understanding transmission dynamics, planning vaccination strategies, and predicting outbreak potential.`
   }
-];
+]; 
 export default PYQData;
