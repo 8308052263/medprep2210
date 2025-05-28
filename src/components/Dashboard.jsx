@@ -1,39 +1,39 @@
-// Dashboard.jsx (Tailwind-only working version — no external UI components)
-
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6">MedPrep Dashboard</h1>
+    <div className="p-4 md:ml-64">
+      <h1 className="text-3xl font-bold mb-6">Welcome to Dashboard</h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* MCQs */}
-          <Link to="/mcqs" className="block bg-white shadow rounded-lg p-6 hover:bg-blue-50 transition">
-            <h2 className="text-xl font-semibold text-blue-600">MCQs</h2>
-            <p className="text-gray-600 mt-2">Practice medical multiple choice questions with explanations.</p>
-          </Link>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
+        <Link to="/mcqs">
+          <div className="p-6 bg-white rounded-lg shadow hover:shadow-lg transition cursor-pointer">
+            <h2 className="text-xl font-semibold">MCQs</h2>
+            <p className="text-sm text-gray-600">Practice clinical multiple choice questions with explanations.</p>
+          </div>
+        </Link>
 
-          {/* PYQs */}
-          <Link to="/pyqs" className="block bg-white shadow rounded-lg p-6 hover:bg-blue-50 transition">
-            <h2 className="text-xl font-semibold text-blue-600">PYQs</h2>
-            <p className="text-gray-600 mt-2">Previous Year Questions from FMGE, NEET PG, INI-CET.</p>
-          </Link>
+        <Link to="/pyqs">
+          <div className="p-6 bg-white rounded-lg shadow hover:shadow-lg transition cursor-pointer">
+            <h2 className="text-xl font-semibold">PYQs</h2>
+            <p className="text-sm text-gray-600">Previous Year Questions from FMGE, NEET PG, INI-CET.</p>
+          </div>
+        </Link>
 
-          {/* Flashcards */}
-          <Link to="/flashcards" className="block bg-white shadow rounded-lg p-6 hover:bg-blue-50 transition">
-            <h2 className="text-xl font-semibold text-blue-600">Flashcards</h2>
-            <p className="text-gray-600 mt-2">Revise high-yield concepts using flip-based flashcards.</p>
-          </Link>
+        <Link to="/flashcards">
+          <div className="p-6 bg-white rounded-lg shadow hover:shadow-lg transition cursor-pointer">
+            <h2 className="text-xl font-semibold">Flashcards</h2>
+            <p className="text-sm text-gray-600">Revise high-yield concepts using flip-based flashcards.</p>
+          </div>
+        </Link>
 
-          {/* AI Doubt Solver */}
-          <Link to="/ai-doubts" className="block bg-white shadow rounded-lg p-6 hover:bg-blue-50 transition">
-            <h2 className="text-xl font-semibold text-blue-600">AI Doubt Solver</h2>
-            <p className="text-gray-600 mt-2">Ask questions and get AI-generated explanations.</p>
-          </Link>
-        </div>
+        <Link to="/ai-doubts">
+          <div className="p-6 bg-white rounded-lg shadow hover:shadow-lg transition cursor-pointer">
+            <h2 className="text-xl font-semibold">AI Doubt Solver</h2>
+            <p className="text-sm text-gray-600">Ask questions and get AI-generated explanations.</p>
+          </div>
+        </Link>
       </div>
     </div>
   );
