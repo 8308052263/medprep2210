@@ -1,53 +1,55 @@
 // src/components/Sidebar.jsx
-import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { Menu } from 'lucide-react';
 
 const Sidebar = () => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const location = useLocation();
 
-  const navItems = [
-    { name: "Dashboard", path: "/dashboard" },
-    { name: "Flashcards", path: "/flashcards" },
-    { name: "MCQs", path: "/mcqs" },
-    { name: "PYQs", path: "/pyqs" },
+  const toggleSidebar = () => setOpen(!open);
+
+  const links = [
+    { label: 'Dashboard', path: '/dashboard' },
+    { label: 'Flashcards', path: '/flashcards' },
+    { label: 'MCQs', path: '/mcqs' },
+    { label: 'PYQs', path: '/pyqs' },
   ];
 
   return (
     <>
-      {/* Toggle Button (Mobile) */}
-      <div className="md:hidden p-4">
-        <button
-          onClick={() => setOpen(!open)}
-          className="text-xl font-bold border px-3 py-1 rounded"
-        >
-          ☰
+      {/* Mobile Toggle Button */}
+      <div className="md:hidden fixed top-4 left-4 z-50">
+        <button onClick={toggleSidebar} className="p-2 bg-white border rounded shadow">
+          <Menu size={24} />
         </button>
       </div>
 
-      {/* Sidebar */}
       <div
-        className={`fixed top-0 left-0 z-40 h-full w-64 p-4 bg-white shadow-md transition-transform duration-300 transform 
-          ${open ? "translate-x-0" : "-translate-x-full"} 
-          md:translate-x-0 md:static md:block`}
+        className={`bg-white h-full shadow-md transition-all fixed md:static z-40 ${
+          open ? 'w-64' : 'w-0 md:w-64'
+        }`}
       >
-        <h2 className="text-2xl font-bold mb-6">MedPrep</h2>
-        <nav className="flex flex-col space-y-3">
-          {navItems.map((item, index) => (
-            <Link
-              key={index}
-              to={item.path}
-              className={`p-2 rounded ${
-                location.pathname === item.path
-                  ? "bg-purple-600 text-white font-semibold"
-                  : "hover:bg-purple-100 text-gray-800"
-              }`}
-              onClick={() => setOpen(false)}
-            >
-              {item.name}
-            </Link>
-          ))}
-        </nav>
+        {open && (
+          <div className="p-6">
+            <h2 className="text-xl font-bold mb-4">MedPrep</h2>
+            <nav className="flex flex-col gap-3">
+              {links.map((link) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className={`px-3 py-2 rounded hover:bg-purple-100 ${
+                    location.pathname === link.path
+                      ? 'bg-purple-200 font-semibold'
+                      : ''
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
+        )}
       </div>
     </>
   );
