@@ -1,21 +1,21 @@
 // src/components/Sidebar.jsx
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 const Sidebar = () => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
 
-  const links = [
-    { path: '/dashboard', label: 'Dashboard' },
-    { path: '/flashcards', label: 'Flashcards' },
-    { path: '/mcqs', label: 'MCQs' },
-    { path: '/pyqs', label: 'PYQs' }
+  const navItems = [
+    { name: "Dashboard", path: "/dashboard" },
+    { name: "Flashcards", path: "/flashcards" },
+    { name: "MCQs", path: "/mcqs" },
+    { name: "PYQs", path: "/pyqs" },
   ];
 
   return (
     <>
-      {/* Mobile Hamburger */}
+      {/* Toggle Button (Mobile) */}
       <div className="md:hidden p-4">
         <button
           onClick={() => setOpen(!open)}
@@ -27,21 +27,24 @@ const Sidebar = () => {
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 left-0 h-full w-64 bg-white shadow-md p-6 z-40 transition-transform transform 
-        ${open ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 md:static md:block`}
+        className={`fixed top-0 left-0 z-40 h-full w-64 p-4 bg-white shadow-md transition-transform duration-300 transform 
+          ${open ? "translate-x-0" : "-translate-x-full"} 
+          md:translate-x-0 md:static md:block`}
       >
         <h2 className="text-2xl font-bold mb-6">MedPrep</h2>
-        <nav className="flex flex-col gap-4">
-          {links.map((link) => (
+        <nav className="flex flex-col space-y-3">
+          {navItems.map((item, index) => (
             <Link
-              key={link.path}
-              to={link.path}
-              className={`px-2 py-1 rounded hover:bg-purple-100 ${
-                location.pathname === link.path ? 'bg-purple-200 font-semibold' : ''
+              key={index}
+              to={item.path}
+              className={`p-2 rounded ${
+                location.pathname === item.path
+                  ? "bg-purple-600 text-white font-semibold"
+                  : "hover:bg-purple-100 text-gray-800"
               }`}
               onClick={() => setOpen(false)}
             >
-              {link.label}
+              {item.name}
             </Link>
           ))}
         </nav>
