@@ -1,53 +1,73 @@
-import React, { useState } from 'react';
+// src/components/AIDoubts.jsx
+import React, { useState } from "react";
+import axios from "axios";
 
 const AIDoubts = () => {
-  const [doubt, setDoubt] = useState('');
-  const [response, setResponse] = useState('');
+  const [question, setQuestion] = useState("");
+  const [response, setResponse] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!doubt.trim()) return;
+    if (!question.trim()) return;
 
     setLoading(true);
-    setResponse('');
+    setResponse("Thinking...");
 
-    // Simulated AI Response — Replace this with real backend later
-    setTimeout(() => {
-      setResponse(
-        `AI Explanation:\n\n"${doubt}" is a valid clinical doubt. Based on standard exam prep material, the answer can be reasoned as follows...\n\n✅ Key point: Always approach such questions with pathophysiological logic and treatment protocols in mind.`
+    try {
+      const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
+      console.log("Loaded API Key:", apiKey); // for debugging
+
+      const res = await axios.post(
+        "https://api.openai.com/v1/chat/completions",
+        {
+          model: "gpt-3.5-turbo-0125", // ✅ UPDATED MODEL
+          messages: [{ role: "user", content: question }],
+          temperature: 0.6,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${apiKey}`,
+            "Content-Type": "application/json",
+          },
+        }
       );
-      setLoading(false);
-    }, 1500);
+
+      const answer = res.data.choices[0].message.content;
+      setResponse(answer);
+    } catch (err) {
+      console.error("OpenAI error:", err);
+      setResponse("Error: Too many requests. Try again in a few seconds.");
+    }
+
+    setLoading(false);
   };
 
   return (
-    <div className="p-6 md:ml-20 flex justify-center">
-      <div className="max-w-3xl w-full">
-        <h2 className="text-2xl font-bold text-center mb-4 text-purple-700">AI Doubt Solver</h2>
-        <form onSubmit={handleSubmit} className="mb-4">
-          <textarea
-            className="w-full border p-3 rounded resize-none"
-            rows={4}
-            placeholder="Type your medical doubt here..."
-            value={doubt}
-            onChange={(e) => setDoubt(e.target.value)}
-          />
-          <button
-            type="submit"
-            className="mt-2 bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
-            disabled={loading}
-          >
-            {loading ? 'Thinking...' : 'Submit Doubt'}
-          </button>
-        </form>
+    <div className="p-6 md:ml-64">
+      <h2 className="text-2xl font-bold mb-6 text-purple-700">AI Doubts</h2>
+      <form onSubmit={handleSubmit} className="mb-6">
+        <textarea
+          value={question}
+          onChange={(e) => setQuestion(e.target.value)}
+          placeholder="Type your medical doubt here..."
+          className="w-full border rounded p-4 h-32 mb-4"
+        />
+        <button
+          type="submit"
+          disabled={loading}
+          className="bg-purple-600 text-white px-6 py-2 rounded hover:bg-purple-700"
+        >
+          {loading ? "Generating..." : "Get AI Answer"}
+        </button>
+      </form>
 
-        {response && (
-          <div className="bg-gray-100 p-4 rounded shadow-md whitespace-pre-wrap">
-            {response}
-          </div>
-        )}
-      </div>
+      {response && (
+        <div className="bg-gray-100 p-4 rounded shadow-md">
+          <h3 className="text-lg font-semibold mb-2 text-gray-800">AI Answer:</h3>
+          <p className="whitespace-pre-line text-gray-700">{response}</p>
+        </div>
+      )}
     </div>
   );
 };
