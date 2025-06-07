@@ -1,19 +1,24 @@
 // src/components/Sidebar.jsx
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Sidebar = () => {
   const [open, setOpen] = useState(false);
+  const location = useLocation();
 
-  const toggleSidebar = () => setOpen(!open);
-  const closeSidebar = () => setOpen(false);
+  const links = [
+    { path: '/dashboard', label: 'Dashboard' },
+    { path: '/flashcards', label: 'Flashcards' },
+    { path: '/mcqs', label: 'MCQs' },
+    { path: '/pyqs', label: 'PYQs' }
+  ];
 
   return (
     <>
-      {/* Hamburger Button for Mobile */}
+      {/* Mobile Hamburger */}
       <div className="md:hidden p-4">
         <button
-          onClick={toggleSidebar}
+          onClick={() => setOpen(!open)}
           className="text-xl font-bold border px-3 py-1 rounded"
         >
           ☰
@@ -22,16 +27,23 @@ const Sidebar = () => {
 
       {/* Sidebar */}
       <div
-        className={`fixed z-50 top-0 left-0 h-full bg-white shadow-md w-64 p-4 transition-transform duration-300 transform
-          ${open ? 'translate-x-0' : '-translate-x-full'} 
-          md:translate-x-0 md:static md:block`}
+        className={`fixed top-0 left-0 h-full w-64 bg-white shadow-md p-6 z-40 transition-transform transform 
+        ${open ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 md:static md:block`}
       >
-        <h2 className="text-2xl font-bold mb-4">MedPrep</h2>
+        <h2 className="text-2xl font-bold mb-6">MedPrep</h2>
         <nav className="flex flex-col gap-4">
-          <Link to="/dashboard" onClick={closeSidebar}>Dashboard</Link>
-          <Link to="/flashcards" onClick={closeSidebar}>Flashcards</Link>
-          <Link to="/mcqs" onClick={closeSidebar}>MCQs</Link>
-          <Link to="/pyqs" onClick={closeSidebar}>PYQs</Link>
+          {links.map((link) => (
+            <Link
+              key={link.path}
+              to={link.path}
+              className={`px-2 py-1 rounded hover:bg-purple-100 ${
+                location.pathname === link.path ? 'bg-purple-200 font-semibold' : ''
+              }`}
+              onClick={() => setOpen(false)}
+            >
+              {link.label}
+            </Link>
+          ))}
         </nav>
       </div>
     </>
