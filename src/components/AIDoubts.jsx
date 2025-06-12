@@ -1,6 +1,6 @@
 // src/components/AIDoubts.jsx
 import React, { useState } from "react";
-import axios from "axios";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const AIDoubts = () => {
   const [question, setQuestion] = useState("");
@@ -15,29 +15,16 @@ const AIDoubts = () => {
     setResponse("Thinking...");
 
     try {
-      const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
-      console.log("Loaded API Key:", apiKey); // for debugging
+      const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+      const genAI = new GoogleGenerativeAI(apiKey);
+      const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
-      const res = await axios.post(
-        "https://api.openai.com/v1/chat/completions",
-        {
-          model: "gpt-3.5-turbo-0125", // ✅ UPDATED MODEL
-          messages: [{ role: "user", content: question }],
-          temperature: 0.6,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${apiKey}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const answer = res.data.choices[0].message.content;
+      const result = await model.generateContent(question);
+      const answer = result.response.text();
       setResponse(answer);
     } catch (err) {
-      console.error("OpenAI error:", err);
-      setResponse("Error: Too many requests. Try again in a few seconds.");
+      console.error("Gemini error:", err);
+      setResponse("Error: Unable to fetch answer from Gemini.");
     }
 
     setLoading(false);
@@ -45,7 +32,7 @@ const AIDoubts = () => {
 
   return (
     <div className="p-6 md:ml-64">
-      <h2 className="text-2xl font-bold mb-6 text-purple-700">AI Doubts</h2>
+      <h2 className="text-2xl font-bold mb-6 text-purple-700">AI Doubts (Gemini)</h2>
       <form onSubmit={handleSubmit} className="mb-6">
         <textarea
           value={question}
